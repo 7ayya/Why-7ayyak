@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How We Work – 3 Steps</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy:#213363;
+      --slate:#4c7b8b;
+      --gold:#f5b857;
+      --sand:#ece8dd;
+      --mist:#9ad2cb;
+      --ink:#1d1d1d;
+      --cloud:#f2f3f4;
+      --sand-mist-mid:#dae3d9;   /* midpoint(sand, mist) */
+      --mist-slate-mid:#639596;  /* midpoint(mist, slate) */
+      --radius-lg:20px;
+      --dot:50px;
+      --mobile-pad-left:10px;
+    }
+    html,body{margin:0;padding:0;background:#fff;color:var(--ink);} 
+    body{font-family:"IBM Plex Sans Arabic", system-ui, sans-serif; line-height:1.5;font-size:15px;}
+    .wrap{max-width:1100px;margin:auto;padding:32px 20px;}
+
+    .title{font-family:'Poppins', system-ui, sans-serif; font-weight:600; font-size:clamp(22px,2.6vw,32px); color:var(--navy); margin:0 0 40px}
+
+    .steps-container{position:relative; display:flex; justify-content:space-between; align-items:flex-start; gap:20px;}
+
+    .line{position:absolute; top:24px; left: 17.33%; right: 17.33%; height:4px; background:linear-gradient(90deg, var(--sand) 0%, var(--mist) 50%, var(--slate) 100%); border-radius:999px; z-index:0;}
+
+    .vline{display:none;}
+
+    .step{flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; z-index:1;}
+
+    .circle{width:var(--dot); height:var(--dot); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Poppins'; font-weight:600; font-size:18px; color:var(--ink); box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-bottom:16px;}
+    .circle.sand{background:var(--sand);} 
+    .circle.mist{background:var(--mist);} 
+    .circle.slate{background:var(--slate); color:white;}
+
+    .card{background:var(--cloud); border-radius:var(--radius-lg); padding:18px; width:100%; max-width:300px; border:1px solid rgba(0,0,0,.06); box-shadow:0 4px 16px rgba(0,0,0,.04); display:flex; justify-content:center;}
+    .card-inner{width:100%; max-width:240px; margin:0 auto; text-align:left; color:var(--slate);} 
+    .card h3{font-family:'Poppins', system-ui, sans-serif; font-weight:600; font-size:18px; color:var(--navy); margin:0; text-align:left;}
+    .card p{margin:6px 0; color:var(--navy);} 
+
+    /* NEW: make image + title sit side-by-side, text comes after */
+    .card-head{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+    .img-ph{width:56px; aspect-ratio:1/1; background:none; display:block; margin:0;}
+    .img-ph img{max-width:100%; height:auto; display:block;}
+
+    .metrics-wrapper {display:flex; justify-content:space-between; align-items:center; margin-top:40px;}
+    .metrics {flex:1; max-width:calc(100% - 20px); background:var(--cloud); border-radius:15px; padding:10px 14px; font-weight:300; text-align:center; color:var(--navy);}
+    .metrics strong{font-weight:600}
+
+    strong{font-weight:600; } 
+
+   @media (max-width: 640px){
+    /* keep desktop intact; just tighten mobile gutters */
+    .card p{font-size:14px}
+    .steps-container{
+      display:block;
+      position:relative;
+      padding-left:2px;
+      padding-right:40px; /* prevents right-side cropping */
+    }
+
+    /* hide horizontal line on phones */
+    .line{ display:none; }
+
+    /* vertical rail directly under the circles (dot is 50px wide) */
+    .vline{
+      display:block;
+      position:absolute;
+      left:calc(0px + 50px/2); /* left padding + half the circle */
+      top:calc(50px/2);
+      bottom:calc(50px/2);
+      width:4px;
+      background:linear-gradient(180deg, var(--sand) 0%, var(--mist) 50%, var(--slate) 100%);
+      border-radius:999px;
+    }
+
+    /* circles column + card column; center the circle vertically to the card */
+    .step{
+      display:grid;
+      grid-template-columns:50px 1fr; /* circle column width = dot size */
+      column-gap:8px;
+      align-items:center;            /* centers the circle with card vertically */
+      margin-bottom:20px;
+    }
+    .circle{ margin:0; justify-self:center; } /* centers over the rail */
+
+    /* midpoint colors for circles 1 & 3 on mobile */
+    .circle.sand{ background:var(--sand-mist-mid); }
+    .circle.slate{ background:var(--mist-slate-mid); }
+
+    /* let cards use full width of their column */
+    .card{ max-width:none; }
+    .card-inner{ max-width:none; }
+  }
+    /* Apply your mobile layout when the URL has ?mobile=1 */
+.force-mobile .card p{ font-size:14px; }
+
+.force-mobile .steps-container{
+  display:block;
+  position:relative;
+  padding-left:2px;
+  padding-right:40px; /* prevents right-side cropping */
+}
+
+/* hide horizontal line, show vertical rail */
+.force-mobile .line{ display:none; }
+
+.force-mobile .vline{
+  display:block;
+  position:absolute;
+  left:calc(0px + 50px/2); /* left padding + half the circle (dot is 50px) */
+  top:calc(50px/2);
+  bottom:calc(50px/2);
+  width:4px;
+  background:linear-gradient(180deg, var(--sand) 0%, var(--mist) 50%, var(--slate) 100%);
+  border-radius:999px;
+}
+
+/* circles column + card column; center the circle vertically to the card */
+.force-mobile .step{
+  display:grid;
+  grid-template-columns:50px 1fr; /* circle column width = dot size */
+  column-gap:8px;
+  align-items:center;
+  margin-bottom:20px;
+}
+.force-mobile .circle{ margin:0; justify-self:center; } /* centers over the rail */
+
+/* midpoint colors for circles 1 & 3 on mobile */
+.force-mobile .circle.sand{ background:var(--sand-mist-mid); }
+.force-mobile .circle.slate{ background:var(--mist-slate-mid); }
+
+/* let cards use full width of their column */
+.force-mobile .card{ max-width:none; }
+.force-mobile .card-inner{ max-width:none; }
+  </style>
+  <!-- in <head> of Page A -->
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var forceMobile = params.get('mobile') === '1';
+  if (!forceMobile) return;
+
+  // Add a class we can target in CSS
+  document.documentElement.classList.add('force-mobile');
+
+  // Optional: emulate a phone-width viewport inside the iframe
+  // so font sizes/line lengths look truly mobile
+  var vp = document.querySelector('meta[name="viewport"]');
+  if (!vp) {
+    vp = document.createElement('meta');
+    vp.setAttribute('name', 'viewport');
+    document.head.appendChild(vp);
+  }
+  vp.setAttribute('content', 'width=375, initial-scale=1, maximum-scale=1');
+})();
+</script>
+
+</head>
+<body>
+  <div class="wrap">
+    <div class="steps-container">
+      <div class="line"></div>
+      <div class="vline" aria-hidden="true"></div>
+
+      <!-- Step 1 -->
+      <div class="step">
+        <div class="circle sand">1</div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-head">
+              <div class="img-ph">
+                <img src="https://static.wixstatic.com/media/87077c_6e8fc30512964448b8500c0e74122dc1~mv2.png" alt="Ask">
+              </div>
+              <h3>Ask</h3>
+            </div>
+            <p>Submit a task via the app, email, or WhatsApp Business. Your <strong>momentum manager</strong> reviews and assigns instantly.</p>
+            <p><strong>Your focus stays on growth</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <div class="circle mist">2</div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-head">
+              <div class="img-ph">
+                <img src="https://static.wixstatic.com/media/87077c_b57931463b9a4166aefd73526d6182b2~mv2.png" alt="Track">
+              </div>
+              <h3>Track</h3>
+            </div>
+            <p>Every task, message, and file is logged in your dashboard, with status, timestamps, and accountability.</p>
+            <p><strong>Clarity replaces follow-ups</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <div class="circle slate">3</div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-head">
+              <div class="img-ph">
+                <img src="https://static.wixstatic.com/media/87077c_31549d68097842228b73bfa33613e487~mv2.png" alt="Done">
+              </div>
+              <h3>Done</h3>
+            </div>
+            <p>Your RA executes using company tools and secure devices. Deliverables are reviewed by your <strong>momentum manager</strong>.</p>
+            <p><strong>Delegation that actually delivers</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics-wrapper">
+      <div class="metrics">
+        <strong>+99%</strong> on-time tasks&emsp;<span style="color:#f5b857;">•</span>&emsp;<strong>GCC-hour</strong> coverage&emsp;<span style="color:#f5b857;">•</span>&emsp;<strong>Full visibility</strong> on every action
+      </div>
+    </div>
+  </div>
+  <style>
+  /* kill scrollbars inside the embedded page */
+  html, body {
+    margin: 0;
+    padding: 0;
+    /* ‘clip’ fully suppresses scrollbars without creating a scroll container */
+    overflow: clip !important;
+  }
+  /* extra: hide legacy webkit scrollbars, just in case */
+  body::-webkit-scrollbar { display: none !important; }
+</style>
+
+<script>
+  (function () {
+    // if this page is inside an iframe and same-origin, resize the iframe from here
+    try {
+      if (window.frameElement) {
+        const setH = () => {
+          // compute the full document height
+          const b = document.body, e = document.documentElement;
+          const h = Math.max(
+            b.scrollHeight, e.scrollHeight,
+            b.offsetHeight, e.offsetHeight,
+            b.clientHeight, e.clientHeight
+          );
+          // add a tiny buffer to avoid ghost scrollbars
+          window.frameElement.style.height = Math.ceil(h + 2) + 'px';
+        };
+
+        // run on load/resize and on any layout changes
+        window.addEventListener('load', setH, { once: true });
+        window.addEventListener('resize', setH);
+        if ('ResizeObserver' in window) new ResizeObserver(setH).observe(document.documentElement);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(setH).catch(()=>{});
+        // a few safety pings in case late assets shift layout
+        let n = 0, iv = setInterval(() => { setH(); if (++n > 10) clearInterval(iv); }, 300);
+        setH();
+      }
+    } catch (_) {
+      /* if sandboxed cross-origin, frameElement access may be blocked.
+         in that case the CSS above still hides the scrollbar track;
+         ensure your iframe height on page B is tall enough to avoid clipping. */
+    }
+  })();
+</script>
+
+<script>
+(function(){
+  function h(){
+    var b=document.body,e=document.documentElement;
+    var H=Math.max(b.scrollHeight,e.scrollHeight,b.offsetHeight,e.offsetHeight,b.clientHeight,e.clientHeight);
+    try{ if (window.frameElement) window.frameElement.style.height=(Math.ceil(H)+2)+'px'; }catch(_){}
+  }
+  window.addEventListener('load', h, {once:true});
+  window.addEventListener('resize', h);
+  if ('ResizeObserver' in window) new ResizeObserver(h).observe(document.documentElement);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(h).catch(()=>{});
+  h();
+})();
+</script>
+<script>
+(function () {
+  function getDocHeight(){
+    var b = document.body, e = document.documentElement;
+    return Math.max(
+      b.scrollHeight, e.scrollHeight,
+      b.offsetHeight, e.offsetHeight,
+      b.clientHeight, e.clientHeight
+    );
+  }
+
+  function send(){
+    var h = getDocHeight();
+    // post to parent; no origin restriction so it works even if embedded elsewhere
+    try { parent.postMessage({ type:'WHY7AYYAK_HEIGHT', height: Math.ceil(h) }, '*'); } catch(_) {}
+  }
+
+  // initial + after layout changes
+  window.addEventListener('load', send, { once: true });
+  window.addEventListener('resize', send);
+  if ('ResizeObserver' in window) new ResizeObserver(send).observe(document.documentElement);
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(send).catch(function(){}); }
+
+  // a few safety pings for late assets
+  var n = 0, iv = setInterval(function(){ send(); if (++n > 8) clearInterval(iv); }, 250);
+  send();
+})();
+</script>
+
+</body>
+</html>
